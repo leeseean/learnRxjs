@@ -2,9 +2,21 @@
 
 Observable是一个类，是多个值的推送集合。
 
-Observable是一个类，包含静态方法create，protoType上有subscribe，
-
 ## Observable类通过静态方法create创建Observable实例
+
+用法
+
+```
+const observable = Observable.create(function (observer) {
+  observer.next(1);
+  observer.next(2);
+  observer.next(3);
+  setTimeout(() => {
+    observer.next(4);
+    observer.complete();
+  }, 1000);
+});
+```
 
 源码
 
@@ -23,6 +35,19 @@ Observable是一个类，包含静态方法create，protoType上有subscribe，
 ```
 
 ## Observable实例通过subscribe方法订阅事件，返回Subscriber实例
+
+用法
+
+```
+observable.subscribe({
+  next: x => console.log('got value ' + x),
+  error: err => console.error('something wrong occurred: ' + err),
+  complete: () => console.log('done'),
+});
+observable.subscribe(function (x) {
+  console.log(x);
+});
+```
 
 源码
 
@@ -104,5 +129,67 @@ async function execute() {
         }
       }, reject, resolve);
     }) as Promise<void>;
+  }
+```
+
+## Observable实例通过toPromise将实例转为promise
+
+用法
+
+```
+Observable.of('foo').toPromise().then(res => console.log(res));
+```
+
+源码
+
+```
+  toPromise(promiseCtor?: PromiseConstructorLike): Promise<T> {
+    promiseCtor = getPromiseCtor(promiseCtor);
+    //执行订阅，并返回一个promise
+    return new promiseCtor((resolve, reject) => {
+      let value: any;
+      this.subscribe((x: T) => value = x, (err: any) => reject(err), () => resolve(value));
+    }) as Promise<T>;
+  }
+```
+
+## Observable实例通过pipe来组合操作符
+
+用法
+
+```
+range(0, 10).pipe(
+  filter(x => x % 2 === 0),
+  map(x => x + x),
+  scan((acc, x) => acc + x, 0)
+)
+.subscribe(x => console.log(x))
+```
+
+源码
+
+```
+function pipeFromArray<T, R>(fns: Array<UnaryFunction<T, R>>): UnaryFunction<T, R> {
+  if (!fns) {
+    return noop as UnaryFunction<any, any>;
+  }
+
+  if (fns.length === 1) {
+    return fns[0];
+  }
+
+  return function piped(input: T): R {// 通过reduce来组合操作符
+    return fns.reduce((prev: any, fn: UnaryFunction<T, R>) => fn(prev), input as any);
+  };
+}
+```
+
+```
+  pipe(...operations: OperatorFunction<any, any>[]): Observable<any> {
+    if (operations.length === 0) {
+      return this as any;
+    }
+
+    return pipeFromArray(operations)(this);
   }
 ```
