@@ -46,6 +46,8 @@ Email：leeseean@qq.com
 
 Github: [https://github.com/leeseean](https://github.com/leeseean)
 
+知乎专栏: [https://zhuanlan.zhihu.com/c_208136611](https://zhuanlan.zhihu.com/c_208136611)
+
 简书： [https://www.jianshu.com/u/e835f4664f5b](https://www.jianshu.com/u/e835f4664f5b)
 
 对内容有任何疑问，欢迎联系我。
