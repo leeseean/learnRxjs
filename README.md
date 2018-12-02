@@ -17,6 +17,10 @@ RxJS源码分析，记录了个人学习RxJS 源码的过程中的一些心得�
 
 [RxJS源码解读之Observer](./docs/Observer.md)
 
+[RxJS源码解读之operators操作符](./docs/operators操作符.md)
+
+[RxJS源码解读之生成observable的函数](./docs/生成observable的函数.md)
+
 ---
 
 ## 赞助我
