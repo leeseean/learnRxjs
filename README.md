@@ -13,7 +13,9 @@ RxJS源码分析，记录了个人学习RxJS 源码的过程中的一些心得�
 
 ### 源码相关
 
-[RxJS源码解读之Observable](./docs/Observable.MarkDown)
+[RxJS源码解读之Observable](./docs/Observable.md)
+
+[RxJS源码解读之Observer](./docs/Observer.md)
 
 ---
 

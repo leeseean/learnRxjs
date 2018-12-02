@@ -53,7 +53,7 @@ observable.subscribe(function (x) {
 
 ```
    /**  
-   * 参数为observer对象或者next函数，返回Subscriber实例subscription（执行subscription()订阅取消）
+   * 参数为observer对象或者next函数，返回Subscriber实例subscription（执行subscription.unsubscribe()订阅取消）
    **/
  subscribe(observerOrNext?: PartialObserver<T> | ((value: T) => void),
             error?: (error: any) => void,
@@ -153,7 +153,7 @@ Observable.of('foo').toPromise().then(res => console.log(res));
   }
 ```
 
-## Observable实例通过pipe来组合操作符
+## Observable实例通过pipe来组合操作符，返回observable实例
 
 用法
 
@@ -189,7 +189,7 @@ function pipeFromArray<T, R>(fns: Array<UnaryFunction<T, R>>): UnaryFunction<T, 
     if (operations.length === 0) {
       return this as any;
     }
-
+    //返回observable实例
     return pipeFromArray(operations)(this);
   }
 ```
